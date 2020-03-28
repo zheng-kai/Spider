@@ -3,6 +3,7 @@ package com.example.a27299.myapplication
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.util.Log
+import android.widget.Button
 import android.widget.TextView
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
@@ -25,10 +26,15 @@ class MainActivity : AppCompatActivity(), UI {
         var password = "19991002Zk"
         tv = findViewById(R.id.tv)
         val login = Login(this)
-        login.logout()
+        val btnLogout = findViewById<Button>(R.id.btn_logout)
+        val btnLogin = findViewById<Button>(R.id.btn_login)
+        btnLogout.setOnClickListener {
+            login.logout()
 
-
-        login.login(username, password)
+        }
+        btnLogin.setOnClickListener {
+            login.login(username, password)
+        }
     }
 
     override fun fail() {

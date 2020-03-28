@@ -44,8 +44,6 @@ class Login(val ui: UI) {
                         GlobalScope.launch(Dispatchers.Main) {
                             ui.success()
                         }
-
-
                     }
 
                 })
@@ -55,6 +53,7 @@ class Login(val ui: UI) {
     fun logout() {
         GlobalScope.launch {
             var doc = Jsoup.connect(logoutUrl).get()
+            Log.d("logout",doc.toString())
         }
     }
 }
