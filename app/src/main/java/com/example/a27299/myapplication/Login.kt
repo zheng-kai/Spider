@@ -15,6 +15,8 @@ class Login(val ui: UI) {
     private val module = Module()
     fun login(userName: String, password: String) =
             GlobalScope.launch {
+                val sso = Sso()
+                sso.init()
                 var doc = Jsoup.connect(url).post()
                 var es = doc.select("input")
                 for (e in es) {
