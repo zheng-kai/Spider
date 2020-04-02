@@ -25,15 +25,19 @@ class MainActivity : AppCompatActivity(), UI {
         var username = "3018216157"
         var password = "19991002Zk"
         tv = findViewById(R.id.tv)
-        val login = Login(this,this)
+        val sso = Sso(this,this)
         val btnLogout = findViewById<Button>(R.id.btn_logout)
         val btnLogin = findViewById<Button>(R.id.btn_login)
+        val btnMain = findViewById<Button>(R.id.btn_main)
+        btnMain.setOnClickListener {
+            sso.init()
+        }
         btnLogout.setOnClickListener {
-            login.logout()
+            sso.logout()
 
         }
         btnLogin.setOnClickListener {
-            login.login(username, password)
+            sso.login(username, password)
         }
     }
 

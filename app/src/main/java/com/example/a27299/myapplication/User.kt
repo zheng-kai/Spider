@@ -2,30 +2,28 @@ package com.example.a27299.myapplication
 
 import android.content.Context
 import android.util.Log
+import com.example.a27299.myapplication.cookie.CookieJarImpl
+import com.example.a27299.myapplication.cookie.PersistentCookieStore
 import kotlinx.coroutines.*
 import okhttp3.*
+import okhttp3.logging.HttpLoggingInterceptor
 import org.jsoup.Jsoup
 import java.io.IOException
 import java.util.zip.Deflater
 
-class Login(val ui: UI, private val context: Context) {
+class User(val ui: UI, private val context: Context) {
     private val BASE_URL = "https://sso.tju.edu.cn/cas/login"
-    private val url = "$BASE_URL?service=http%3A%2F%2Fclasses.tju.edu.cn%2Feams%2FhomeExt.action%3Bjsessionid%3D94A538044DB0683B3215B606D143D2B5.std6"
+    private val url = "$BASE_URL?service=http://classes.tju.edu.cn/eams/homeExt.action"
     private val logoutUrl = "http://classes.tju.edu.cn/eams/logoutExt.action"
-    private var execution = ""
     private val module = Module()
-    fun login(userName: String, password: String) =
+    private val loggingInterceptor = HttpLoggingInterceptor()
+            .apply { level = HttpLoggingInterceptor.Level.BODY }
+
+    fun login(userName: String, password: String, execution: String) =
             GlobalScope.launch {
-                val sso = Sso(context)
-                sso.init()
-                var doc = Jsoup.connect(url).post()
-                var es = doc.select("input")
-                for (e in es) {
-                    if (e.attr("name") == "execution") {
-                        execution = e.`val`()
-                    }
-                }
-                var okHttpClient = OkHttpClient()
+                var okHttpClient = OkHttpClient.Builder()
+                        .cookieJar(CookieJarImpl(PersistentCookieStore(context)))
+                        .addNetworkInterceptor(loggingInterceptor).build()
                 var requestBody = FormBody.Builder()
                         .add("username", userName)
                         .add("password", password)
