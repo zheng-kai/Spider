@@ -1,5 +1,6 @@
 package com.example.a27299.myapplication
 
+import android.content.Context
 import android.util.Log
 import kotlinx.coroutines.*
 import okhttp3.*
@@ -7,7 +8,7 @@ import org.jsoup.Jsoup
 import java.io.IOException
 import java.util.zip.Deflater
 
-class Login(val ui: UI) {
+class Login(val ui: UI, private val context: Context) {
     private val BASE_URL = "https://sso.tju.edu.cn/cas/login"
     private val url = "$BASE_URL?service=http%3A%2F%2Fclasses.tju.edu.cn%2Feams%2FhomeExt.action%3Bjsessionid%3D94A538044DB0683B3215B606D143D2B5.std6"
     private val logoutUrl = "http://classes.tju.edu.cn/eams/logoutExt.action"
@@ -15,7 +16,7 @@ class Login(val ui: UI) {
     private val module = Module()
     fun login(userName: String, password: String) =
             GlobalScope.launch {
-                val sso = Sso()
+                val sso = Sso(context)
                 sso.init()
                 var doc = Jsoup.connect(url).post()
                 var es = doc.select("input")
@@ -55,7 +56,7 @@ class Login(val ui: UI) {
     fun logout() {
         GlobalScope.launch {
             var doc = Jsoup.connect(logoutUrl).get()
-            Log.d("logout",doc.toString())
+            Log.d("logout", doc.toString())
         }
     }
 }

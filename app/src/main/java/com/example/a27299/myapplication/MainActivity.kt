@@ -25,7 +25,7 @@ class MainActivity : AppCompatActivity(), UI {
         var username = "3018216157"
         var password = "19991002Zk"
         tv = findViewById(R.id.tv)
-        val login = Login(this)
+        val login = Login(this,this)
         val btnLogout = findViewById<Button>(R.id.btn_logout)
         val btnLogin = findViewById<Button>(R.id.btn_login)
         btnLogout.setOnClickListener {

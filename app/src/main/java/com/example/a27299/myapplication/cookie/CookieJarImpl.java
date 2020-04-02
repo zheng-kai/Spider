@@ -1,6 +1,8 @@
 package com.example.a27299.myapplication.cookie;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import okhttp3.Cookie;
 import okhttp3.CookieJar;
@@ -18,7 +20,6 @@ import okhttp3.HttpUrl;
 public class CookieJarImpl implements CookieJar {
 
     private CookieStore cookieStore;
-
     public CookieJarImpl(CookieStore cookieStore) {
         if(cookieStore == null) {
             throw new IllegalArgumentException("cookieStore can not be null.");
@@ -33,7 +34,7 @@ public class CookieJarImpl implements CookieJar {
 
     @Override
     public synchronized List<Cookie> loadForRequest(HttpUrl url) {
-        return this.cookieStore.get(url);
+        return this.cookieStore.getCookies();
     }
 
     public CookieStore getCookieStore() {
