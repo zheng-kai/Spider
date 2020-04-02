@@ -29,6 +29,9 @@ class MainActivity : AppCompatActivity(), UI {
         val btnLogout = findViewById<Button>(R.id.btn_logout)
         val btnLogin = findViewById<Button>(R.id.btn_login)
         val btnMain = findViewById<Button>(R.id.btn_main)
+        val btnCt = findViewById<Button>(R.id.btn_coursetable)
+
+        val ct = CourseTable(this)
         btnMain.setOnClickListener {
             sso.init()
         }
@@ -38,6 +41,10 @@ class MainActivity : AppCompatActivity(), UI {
         }
         btnLogin.setOnClickListener {
             sso.login(username, password)
+        }
+        btnCt.setOnClickListener {
+            ct.getCourse()
+
         }
     }
 

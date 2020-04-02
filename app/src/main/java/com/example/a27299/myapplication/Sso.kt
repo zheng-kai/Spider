@@ -13,16 +13,13 @@ import java.io.IOException
 public class Sso(ui: UI, private val context: Context) {
     private val BASE_URL = "http://classes.tju.edu.cn/eams/homeExt.action"
     private var ssoUrl: String? = ""
-    private val loggingInterceptor = HttpLoggingInterceptor()
-            .apply { level = HttpLoggingInterceptor.Level.BODY }
+
     private var execution = ""
     private var user: User = User(ui, context)
 
 
     fun init() {
-        var okHttpClient = OkHttpClient.Builder()
-                .cookieJar(CookieJarImpl(PersistentCookieStore(context)))
-                .addNetworkInterceptor(loggingInterceptor).build()
+        var okHttpClient = OkHttpClientGenerator.generate(context)
         var request = Request.Builder()
                 .url(BASE_URL)
                 .get()

@@ -16,14 +16,9 @@ class User(val ui: UI, private val context: Context) {
     private val url = "$BASE_URL?service=http://classes.tju.edu.cn/eams/homeExt.action"
     private val logoutUrl = "http://classes.tju.edu.cn/eams/logoutExt.action"
     private val module = Module()
-    private val loggingInterceptor = HttpLoggingInterceptor()
-            .apply { level = HttpLoggingInterceptor.Level.BODY }
-
     fun login(userName: String, password: String, execution: String) =
             GlobalScope.launch {
-                var okHttpClient = OkHttpClient.Builder()
-                        .cookieJar(CookieJarImpl(PersistentCookieStore(context)))
-                        .addNetworkInterceptor(loggingInterceptor).build()
+                var okHttpClient = OkHttpClientGenerator.generate(context)
                 var requestBody = FormBody.Builder()
                         .add("username", userName)
                         .add("password", password)
